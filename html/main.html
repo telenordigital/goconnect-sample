@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Telenor Connect ID &trade;</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="six column" style="margin-top: 25%">
+        <h4 id="oneliner">
+        [one liner goes here]  
+        </h4>
+        <hr/>
+        <h5>This is what I know about you:</h5>
+        <pre><code id="profile">
+        </code></pre>
+        <hr/>
+        <p>You can view the raw one liner output <a href="/api/oneliner">here</a> and the profile information <a href="/connect/profile">here</a>.</p>
+        <p> And <a href="/extra/ExploratoryThings.jpg">this is a password protected image</a></p>
+        <p>Your CONNECT ID management page is at <a href="https://connect.staging.telenordigital.com/gui/mypage">https://connect.staging.telenordigital.com/gui/mypage</a>
+        <button class="button-primary" onClick="showOutput('oneliner', '/api/oneliner');">One more</button>
+        <button class="button-primary" onClick="document.location.replace('/connect/logout');">Log out</button>
+      </div>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+<script>
+function showOutput(element, target) {
+  var elem = document.getElementById(element);
+  var request = new XMLHttpRequest();
+  request.open('GET', target, true);
+
+  request.onload = function() {
+    if (this.status >= 200 && this.status < 400) {
+        elem.innerText = this.response;
+    } else {
+        elem.innerText = "Something went wrong!";
+    }
+  };
+
+  request.onerror = function() {
+    // There was a connection error of some sort
+    elem.innerText = "Error handler triggered";
+  };
+
+  request.send();
+}
+
+showOutput('oneliner', '/api/oneliner');
+showOutput('profile', '/connect/profile');
+</script>
+</html>
