@@ -1,12 +1,12 @@
 # Go CONNECT demo client
 
 This is a demo client for Telenor CONNECT ID go library at
- https://github.com/telenordigital/go-CONNECT
+ https://github.com/telenordigital/goconnect
 
 ## Running the demo
 Lunch the demo the usual way:
 
-    go build && ./go-connectid-sample
+    go build && ./goconnect-sample
 
 ...then point your browser to `http://localhost:8080/` to test it.
 Without logging in you can go to `http://localhost:8080/api/userinfo` directly.
