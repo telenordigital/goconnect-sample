@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
-	goconnect "github.com/telenordigital/go-connectid"
+	"github.com/telenordigital/goconnect"
 )
 
 var templates = template.Must(template.ParseFiles("html/main.html", "html/start.html"))
