@@ -65,6 +65,9 @@ func main() {
 	// client configuration in ConnectID; ie what redirects are required.
 	http.Handle("/connect/", connect.Handler())
 
+	// Show the logged in user's properties.
+	http.HandleFunc("/connect/profile", connect.SessionProfile)
+
 	fmt.Println("Serving data on http://localhost:8080/")
 	http.ListenAndServe(":8080", nil)
 }
