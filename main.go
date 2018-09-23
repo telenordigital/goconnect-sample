@@ -1,10 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"net/http"
 
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/telenordigital/goconnect"
 )
 
@@ -30,15 +32,25 @@ func mainPageHandler(w http.ResponseWriter, r *http.Request) {
 
 // Launch the demo service
 func main() {
+	db, err := sql.Open("sqlite3", "connect-sessions.db?cache=share&mode=twc&_foreign_keys=1&_journal_mode=wal")
+	if err != nil {
+		panic(err)
+	}
 	config := goconnect.NewDefaultConfig(goconnect.ClientConfig{
-		Host:                   goconnect.StagingHost,
-		ClientID:               "telenordigital-connectexample-web",
-		Password:               "",
-		LoginCompleteRedirect:  "/main.html",
-		LogoutCompleteRedirect: "/",
+		Host:                      goconnect.StagingHost,
+		ClientID:                  "telenordigital-connectexample-web",
+		Password:                  "",
+		LoginCompleteRedirectURI:  "/main.html",
+		LogoutCompleteRedirectURI: "/",
 	})
+	// Note: Ignoring errors since the store might already exist
+	goconnect.SQLStorePrepare(db)
 
-	connect := goconnect.NewConnectID(config)
+	dbstore, err := goconnect.NewSQLStorage(db)
+	if err != nil {
+		panic(err)
+	}
+	connect := goconnect.NewConnectIDWithStorage(config, dbstore)
 
 	// The /css and /images endpoints
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("html/css"))))
